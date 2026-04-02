@@ -1,0 +1,117 @@
+{
+  "name": "tugas 1 agen ai tanpa chat",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        -16
+      ],
+      "id": "e9590507-431c-4fff-9256-2826ddf5b9b9",
+      "name": "When chat message received",
+      "webhookId": "1de1dbbe-b9cd-4ebd-907c-0f232802fe98"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah asisten AI untuk toko Bhagas Duck.\n\nTugas kamu:\n- Menjawab pertanyaan tentang produk ayam dan bebek\n- Menjelaskan harga, ukuran, dan kualitas\n- Membantu cara pemesanan\n- Gunakan bahasa Indonesia yang santai tapi sopan\n\nJika pertanyaan di luar topik, arahkan kembali ke produk ayam dan bebek."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        160,
+        -16
+      ],
+      "id": "75e7736a-af74-44d9-bcc6-c323ca2d9c2c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        160,
+        192
+      ],
+      "id": "aea3f65d-c1c9-4b59-a0a8-4e7e67913811",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "EZ97Gqe4WnGpRSik",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        256,
+        288
+      ],
+      "id": "6858b004-a373-496a-9fc2-080fcfb693a4",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "66fc6721-4241-4fbd-a5d6-f4dfa2a7d7c3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a8029a7adbdc0dbd60336a80f6905c6c6343c6a279cd22aaad11890dcf0bf2ab"
+  },
+  "id": "btxFb1nof4hDldBz",
+  "tags": []
+}
